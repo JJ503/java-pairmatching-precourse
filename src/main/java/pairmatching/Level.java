@@ -18,4 +18,12 @@ public enum Level {
         this.name = name;
         this.missions = missions;
     }
+
+    public String getMissionMessage() {
+        return String.format("- %s: %s", name, getMissions());
+    }
+
+    private String getMissions() {
+        return String.join(" | ", missions);
+    }
 }
