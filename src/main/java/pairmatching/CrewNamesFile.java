@@ -11,4 +11,12 @@ public enum CrewNamesFile {
         this.course = course;
         this.filePath = filePath;
     }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
 }
