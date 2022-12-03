@@ -113,7 +113,7 @@
 
 ---
 ## 기능에 따른 분류
-### PairmatchingController
+### PairMatchingController
 
 > 페어 매칭 프로그램의 절차를 관리하는 클래스
 
