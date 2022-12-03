@@ -17,4 +17,8 @@ public enum Menu {
     public String getMenuMessage() {
         return String.format("%s. %s", option, functionType);
     }
+
+    public boolean isMatchOption(String option) {
+        return this.option.equals(option);
+    }
 }
