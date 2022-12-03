@@ -13,4 +13,8 @@ public enum Menu {
         this.option = option;
         this.functionType = functionType;
     }
+
+    public String getMenuMessage() {
+        return String.format("%s. %s", option, functionType);
+    }
 }
