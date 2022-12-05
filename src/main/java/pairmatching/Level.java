@@ -26,4 +26,14 @@ public enum Level {
     private String getMissions() {
         return String.join(" | ", missions);
     }
+
+    public boolean isMatchLevel(String name) {
+        System.out.println(name);
+        System.out.println(this.name);
+        return this.name.equals(name);
+    }
+
+    public boolean isMatchMission(String mission) {
+        return this.missions.contains(mission);
+    }
 }
