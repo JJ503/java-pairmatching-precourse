@@ -210,15 +210,14 @@
 - [x]  과정별 크루원 정보 저장
     - [x]  과정 저장
     - [x]  이름 리스트 저장
+- [ ]  크루원 이름 목록 랜덤으로 섞기
+
+  → ``camp.nextstep.edu.missionutils.Randoms``의 shuffle 메서드를 활용
 
 
 ### PairMatching
 
 > 페어 매칭 기능을 수행하고 관리하는 클래스
-
-- [ ]  크루 이름 목록 랜덤으로 섞기
-
-  → ``camp.nextstep.edu.missionutils.Randoms``의 shuffle 메서드를 활용
 
 - [ ]  앞에서부터 순서대로 두명씩 페어 맺기
     - [ ]  홀수인 경우 마지막 사람을 마지막 페어에 포함시키기
