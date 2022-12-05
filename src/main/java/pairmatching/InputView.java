@@ -6,4 +6,8 @@ public class InputView {
     public String readOption() {
         return Console.readLine();
     }
+
+    public String readCategory() {
+        return Console.readLine();
+    }
 }
