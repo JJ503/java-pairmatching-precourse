@@ -12,6 +12,21 @@ public class PairMatching {
         pairMatch = new HashMap<>();
     }
 
+    public List<List<String>> generatePairMatch(List<String> categories, CrewsByCourse crews) {
+        int tryCount = 0;
+        boolean isDuplicate = false;
+        while (!isDuplicate && tryCount < 3) {
+            tryCount += 1;
+            isDuplicate = pairMatch(categories, crews);
+        }
+
+        if (isDuplicate) {
+            ExceptionMessage.PAIR_MATCHING_IS_NOT_POSSIBLE.throwException();
+        }
+
+        return getPairMatchResult(categories);
+    }
+
     private boolean pairMatch(List<String> categories, CrewsByCourse crews) {
         List<List<String>> newPairMatch = generatePairs(crews);
         boolean isDuplicate = isDuplicatePair(newPairMatch, categories);
@@ -20,6 +35,19 @@ public class PairMatching {
         }
 
         return isDuplicate;
+    }
+
+    public List<List<String>> getPairMatchResult(List<String> categories) {
+        if (isAlreadyMatch(categories)) {
+            return pairMatch.get(categories);
+        }
+
+        // 예외 발생
+        return null;
+    }
+
+    public boolean isAlreadyMatch(List<String> categories) {
+        return pairMatch.containsKey(categories);
     }
 
     private List<List<String>> generatePairs(CrewsByCourse crews) {
