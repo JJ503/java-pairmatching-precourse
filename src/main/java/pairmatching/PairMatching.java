@@ -12,11 +12,16 @@ public class PairMatching {
         pairMatch = new HashMap<>();
     }
 
-    private List<List<String>> pairMatch(List<String> categories, CrewsByCourse crews) {
+    private boolean pairMatch(List<String> categories, CrewsByCourse crews) {
         List<List<String>> newPairMatch = generatePairs(crews);
-        pairMatch.put(categories, newPairMatch);
-        return newPairMatch;
+        boolean isDuplicate = isDuplicatePair(newPairMatch, categories);
+        if (!isDuplicate) {
+            pairMatch.put(categories, newPairMatch);
+        }
+
+        return isDuplicate;
     }
+
     private List<List<String>> generatePairs(CrewsByCourse crews) {
         return pairMatchToStringList(crews.shuffledCrews());
     }
@@ -37,5 +42,44 @@ public class PairMatching {
 
     private boolean isOdd(int size) {
         return size % 2 != 0;
+    }
+
+    private boolean isDuplicatePair(List<List<String>> pairs, List<String> categories) {
+        for (List<String> key : pairMatch.keySet()) {
+            if (isSameLevel(key, categories) && checkDuplicatePair(pairs, pairMatch.get(key))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isSameLevel(List<String> key, List<String> categories) {
+        String course = categories.get(0);
+        String level = categories.get(1);
+        return key.contains(course) && key.contains(level);
+    }
+
+    private boolean checkDuplicatePair(List<List<String>> pairs, List<List<String>> existPairs) {
+         for (List<String> pair : threePairToTwoPairs(pairs)) {
+             if (threePairToTwoPairs(existPairs).contains(pair)) {
+                 return true;
+             }
+         }
+
+         return false;
+    }
+
+    private List<List<String>> threePairToTwoPairs(List<List<String>> pairs) {
+        List<String> threePair = pairs.get(pairs.size() - 1);
+        if (threePair.size() == 3) {
+            pairs.add(Arrays.asList(threePair.get(0), threePair.get(1)));
+            pairs.add(Arrays.asList(threePair.get(1), threePair.get(2)));
+            pairs.add(Arrays.asList(threePair.get(2), threePair.get(0)));
+
+            return pairs;
+        }
+
+        return pairs;
     }
 }
