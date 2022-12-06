@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PairMatchingController {
+    private static final int CATEGORY_SIZE = 3;
 
     OutputView outputView = new OutputView();
     InputView inputView = new InputView();
@@ -13,6 +14,7 @@ public class PairMatchingController {
     public void startProgram() {
         HashMap<Course, CrewsByCourse> crewsByCourses = initCrewList();
         selectOption();
+        List<String> categories = selectCategory();
     }
 
     private HashMap<Course, CrewsByCourse> initCrewList() {
@@ -57,5 +59,60 @@ public class PairMatchingController {
 
     private boolean isNotExistOption(String option) {
         return Arrays.stream(Menu.values()).noneMatch(menu -> menu.isMatchOption(option));
+    }
+
+    private List<String> selectCategory() {
+        outputView.printProgramInformation();
+        String category = inputView.readCategory().replace(" ", "");
+        List<String> categories = Arrays.asList(category.split(","));
+        validateCategory(categories);
+
+        return categories;
+    }
+
+    private void validateCategory(List<String> categories) {
+        if (isEmpty(categories)) {
+            ExceptionMessage.NONE_INPUT.throwException();
+        }
+        if (isNotThreeCategory(categories)) {
+            ExceptionMessage.NONE_INPUT_THREE_CATEGORY.throwException();
+        }
+
+        validateCategories(categories);
+    }
+
+    private void validateCategories(List<String> categories) {
+        String course = categories.get(0);
+        String level = categories.get(1);
+        String mission = categories.get(2);
+        if (isNotExistCourse(course)) {
+            ExceptionMessage.INPUT_WRONG_COURSE.throwException();
+        }
+        if (isNotExistLevel(level)) {
+            ExceptionMessage.INPUT_WRONG_LEVEL.throwException();
+        }
+        if (isNotExistMission(level, mission)) {
+            ExceptionMessage.INPUT_WRONG_MISSION.throwException();
+        }
+    }
+
+    private boolean isEmpty(List<String> categories) {
+        return categories.get(0).isEmpty();
+    }
+
+    private boolean isNotThreeCategory(List<String> categories) {
+        return categories.size() != CATEGORY_SIZE;
+    }
+
+    private boolean isNotExistCourse(String course) {
+        return Arrays.stream(Course.values()).noneMatch(menu -> menu.isMatchCourse(course));
+    }
+
+    private boolean isNotExistLevel(String level) {
+        return Arrays.stream(Level.values()).noneMatch(menu -> menu.isMatchLevel(level));
+    }
+
+    private boolean isNotExistMission(String level, String mission) {
+        return Arrays.stream(Level.values()).noneMatch(menu -> menu.isMatchLevel(level) && menu.isMatchMission(mission));
     }
 }
