@@ -217,7 +217,7 @@
 - [x]  과정별 크루원 정보 저장
     - [x]  과정 저장
     - [x]  이름 리스트 저장
-- [ ]  크루원 이름 목록 랜덤으로 섞기
+- [x]  크루원 이름 목록 랜덤으로 섞기
 
   → ``camp.nextstep.edu.missionutils.Randoms``의 shuffle 메서드를 활용
 
