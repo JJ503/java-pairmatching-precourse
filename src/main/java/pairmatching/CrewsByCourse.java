@@ -4,10 +4,10 @@ import java.util.List;
 
 public class CrewsByCourse {
     private Course course;
-    private List<Crew> name;
+    private List<String> crews;
 
-    CrewsByCourse(Course course, List<Crew> name) {
+    CrewsByCourse(Course course, List<String> crews) {
         this.course = course;
-        this.name = name;
+        this.crews = crews;
     }
 }
