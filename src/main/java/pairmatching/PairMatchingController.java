@@ -1,25 +1,25 @@
 package pairmatching;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class PairMatchingController {
+
     OutputView outputView = new OutputView();
     InputView inputView = new InputView();
 
     public void startProgram() {
-        List<CrewsByCourse> crewsByCourses = initCrewList();
+        HashMap<Course, CrewsByCourse> crewsByCourses = initCrewList();
         selectOption();
     }
 
-    private List<CrewsByCourse> initCrewList() {
-        List<CrewsByCourse> crewsByCourses = new ArrayList<>();
+    private HashMap<Course, CrewsByCourse> initCrewList() {
+        HashMap<Course, CrewsByCourse> crewsByCourses = new HashMap<>();
         for (CrewNamesFile crewFile : CrewNamesFile.values()) {
             List<String> crewNames = getNameList(crewFile.getFilePath());
-            List<Crew> crews = setCrewList(crewNames, crewFile.getCourse());
-            crewsByCourses.add(new CrewsByCourse(crewFile.getCourse(), crews));
+            crewsByCourses.put(crewFile.getCourse(), new CrewsByCourse(crewFile.getCourse(), crewNames));
         }
 
         return crewsByCourses;
@@ -36,16 +36,6 @@ public class PairMatchingController {
         return null;
     }
 
-    private List<Crew> setCrewList(List<String> crewNames, Course course) {
-        List<Crew> crews = new ArrayList<>();
-
-        for (String name : crewNames) {
-            crews.add(new Crew(course, name));
-        }
-
-        return crews;
-    }
-
     private void selectOption() {
         outputView.printMenuList();
         String inputValue = inputView.readOption();
@@ -56,7 +46,7 @@ public class PairMatchingController {
         if (isEmpty(option)) {
             ExceptionMessage.NONE_INPUT.throwException();
         }
-        if (isExistOption(option)) {
+        if (isNotExistOption(option)) {
             ExceptionMessage.INPUT_WRONG_FUNCTION_TYPE.throwException();
         }
     }
@@ -65,7 +55,7 @@ public class PairMatchingController {
         return validateInput.isEmpty();
     }
 
-    private boolean isExistOption(String option) {
-        return Arrays.stream(Menu.values()).anyMatch(menu -> menu.isMatchOption(option));
+    private boolean isNotExistOption(String option) {
+        return Arrays.stream(Menu.values()).noneMatch(menu -> menu.isMatchOption(option));
     }
 }
