@@ -1,5 +1,7 @@
 package pairmatching;
 
+import java.util.Arrays;
+
 public enum Menu {
     PAIR_MATH("1", "페어 매칭"),
     PAIR_CHECK("2", "페어 조회"),
@@ -20,5 +22,12 @@ public enum Menu {
 
     public boolean isMatchOption(String option) {
         return this.option.equals(option);
+    }
+
+    public static Menu getMatchMenu(String option) {
+        return Arrays.stream(values())
+                .filter(value -> value.option.equals(option))
+                .findAny()
+                .orElse(null);
     }
 }
