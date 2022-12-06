@@ -7,6 +7,8 @@ import java.util.List;
 
 public class PairMatchingController {
     private static final int CATEGORY_SIZE = 3;
+    private static final String RESPONSE_YES_REMATCH = "네";
+    private static final String RESPONSE_NO_REMATCH = "아니오";
 
     OutputView outputView = new OutputView();
     InputView inputView = new InputView();
@@ -15,6 +17,30 @@ public class PairMatchingController {
         HashMap<Course, CrewsByCourse> crewsByCourses = initCrewList();
         selectOption();
         List<String> categories = selectCategory();
+        pairMatch(categories, crewsByCourses);
+    }
+
+    private void pairMatch(List<String> categories, HashMap<Course, CrewsByCourse> crewsByCourses) {
+        PairMatching pairMatching = new PairMatching();
+        Course course = Course.getMatchCourse(categories.get(0));
+
+        if (pairMatching.isAlreadyMatch(categories) && !askRematchPair()) {
+            return;
+        }
+
+        outputView.printPairMatchResult(pairMatching.generatePairMatch(categories, crewsByCourses.get(course)));
+    }
+
+    private boolean askRematchPair() {
+        String response = inputView.readAskRematchPair();
+        if (response.equals(RESPONSE_YES_REMATCH)) {
+            return true;
+        }
+        if (response.equals(RESPONSE_NO_REMATCH)) {
+            return false;
+        }
+
+        throw new IllegalArgumentException();
     }
 
     private HashMap<Course, CrewsByCourse> initCrewList() {
