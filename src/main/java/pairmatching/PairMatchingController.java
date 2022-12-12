@@ -12,16 +12,42 @@ public class PairMatchingController {
 
     OutputView outputView = new OutputView();
     InputView inputView = new InputView();
+    PairMatching pairMatching;
 
     public void startProgram() {
         HashMap<Course, CrewsByCourse> crewsByCourses = initCrewList();
-        selectOption();
-        List<String> categories = selectCategory();
-        pairMatch(categories, crewsByCourses);
+        pairMatching = new PairMatching();
+        boolean programState = true;
+
+        while (programState) {
+            try {
+                programState = selectOptionFunction(crewsByCourses);
+            } catch (IllegalArgumentException exception) {
+                System.out.println(exception.getMessage());
+            }
+        }
+    }
+
+    private boolean selectOptionFunction(HashMap<Course, CrewsByCourse> crewsByCourses) {
+        Menu menu = selectOption();
+
+        if (menu == Menu.PAIR_MATH) {
+            List<String> categories = selectCategory();
+            pairMatch(categories, crewsByCourses);
+        }
+        if (menu == Menu.PAIR_CHECK) {
+            List<String> categories = selectCategory();
+            outputView.printPairMatchResult(pairMatching.getPairMatchResult(categories));
+        }
+        if (menu == Menu.PAIR_INITIALIZATION) {
+            pairMatching.initPairMatch();
+            outputView.printInitPairMatchData();
+        }
+
+        return menu != Menu.END_PROGRAM;
     }
 
     private void pairMatch(List<String> categories, HashMap<Course, CrewsByCourse> crewsByCourses) {
-        PairMatching pairMatching = new PairMatching();
         Course course = Course.getMatchCourse(categories.get(0));
 
         if (pairMatching.isAlreadyMatch(categories) && !askRematchPair()) {
@@ -64,10 +90,11 @@ public class PairMatchingController {
         return null;
     }
 
-    private void selectOption() {
+    private Menu selectOption() {
         outputView.printMenuList();
         String inputValue = inputView.readOption();
         validateOption(inputValue);
+        return Menu.getMatchMenu(inputValue);
     }
 
     private void validateOption(String option) {
