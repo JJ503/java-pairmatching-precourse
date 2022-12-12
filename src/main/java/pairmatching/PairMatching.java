@@ -110,4 +110,8 @@ public class PairMatching {
 
         return pairs;
     }
+
+    public void initPairMatch() {
+        pairMatch.clear();
+    }
 }
