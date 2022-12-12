@@ -10,8 +10,9 @@ public class OutputView {
     private static final String COURSE = "과정: %s\n";
     private static final String MISSION = "미션:";
     private static final String COURSE_DELIMITER = " | ";
-    private static final String PAIR_MATCH_RESULT_MESSAGE = "페어 매칭 결과입니다.";
+    private static final String PAIR_MATCH_RESULT_MESSAGE = "\n페어 매칭 결과입니다.";
     private static final String PAIR_RESULT_DELIMITER = " : ";
+    private static final String INIT_PAIR_MATCH_DATA = "\n초기화 되었습니다.\n";
 
     public void printMenuList() {
         System.out.println(MENU_LIST_MESSAGE);
@@ -54,5 +55,11 @@ public class OutputView {
         for (List<String> pair : pairs) {
             System.out.println(String.join(PAIR_RESULT_DELIMITER, pair));
         }
+
+        System.out.println();
+    }
+
+    public void printInitPairMatchData() {
+        System.out.println(INIT_PAIR_MATCH_DATA);
     }
 }
